@@ -21,6 +21,11 @@ The following will build the latest versions of PHP7, Apache, and MySQL. Once up
 - `cd php-app-docker-master`
 - `export UID; docker-compose up --build`
 
+You may then look at:
+
+- localhost:8080/phpinfo.php
+- localhost:8080/adminer.php
+
 ## File Paths
 
 - PHP Files (Put your PHP app here): `app/web`
@@ -56,10 +61,10 @@ Build options are specified by the following environment variables.
 
 Examples:
 
-- Latest versions of PHP7, Nginx and MySQL
+- Latest versions of PHP7, Nginx and MySQL\
   `export UID; export WEBSERVER=nginx; docker-compose up --build`
 
-- PHP5.6, Apache (latest) and MySQL 5.6
+- PHP5.6, Apache (latest) and MySQL 5.6\
   `export UID; export WEBSERVER=apache; export MYSQLVER=5.6; docker-compose up --build`
 
 
