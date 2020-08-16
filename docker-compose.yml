@@ -1,0 +1,36 @@
+version: "3.2"
+services:
+  php:
+    build:
+      context: './docker/php/'
+      args:
+        PHPVER: ${PHPVER:-7}
+        HOSTUID: $UID
+    networks:
+      - backend
+    volumes:
+      - ./app/web/:/var/www/html/
+  webserver:
+    build: './docker/${WEBSERVER:-apache}/'
+    depends_on:
+      - php
+      - mysql
+    networks:
+      - frontend
+      - backend
+    ports:
+      - "8080:80"
+    volumes:
+      - ./app/web/:/var/www/html/
+  mysql:
+    image: mysql:${MYSQLVER:-latest}
+    networks:
+      - backend
+    volumes:
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d/:ro
+      - ./app/mysql:/var/lib/mysql
+    environment:
+        - MYSQL_ROOT_PASSWORD=root
+networks:
+  frontend:
+  backend:
