@@ -1,6 +1,6 @@
-# PHP App Builder on Docker
+# PHP App Environment Builder via Docker Compose
 
-Easily create a PHP Web Application
+Quickly setup your PHP Web Application environment using Docker Compose
 
 - Choose your PHP version (default latest PHP7) Tested on v5.6, v7.0, v7.1, v7.2, v7.3, and v7.4
 - Choose between Apache or Nginx as your web server
