@@ -26,6 +26,12 @@ The following will build the latest versions of PHP7, Apache, and MySQL. Once up
 - PHP Files (Put your PHP app here): `app/web`
 - MySQL Data (This is where MySQL will store its data): `app/mysql`
 
+## Default MySQL Credentials
+
+- HOST: mysql
+- USER: root
+- PASS: root
+
 ## To start/stop an existing build
 
 - `docker-compose start/stop`
