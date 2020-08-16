@@ -16,8 +16,9 @@ Best for testing your PHP web application on a variety of environments.
 
 The following will build the latest versions of PHP7, Apache, and MySQL. Once up, you may access your web application at localhost:8080
 
-- `git clone https://github.com/easterncoder/php-app-docker.git`
-- `cd php-app-docker`
+- `wget https://github.com/easterncoder/php-app-docker/archive/master.zip`
+- `unzip master.zip`
+- `cd php-app-docker-master`
 - `export UID; docker-compose up --build`
 
 ## File Paths
