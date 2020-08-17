@@ -65,7 +65,6 @@ Example 2: to set a specific UID `--build-arg HOST_UID=1001`
 
 Web Servers:
 - `WEB`=**httpd** | nginx
-- `WEB_VERSION`=**latest** | num
 
 Database Management System:
 - `DB`=**mariadb** | mysql
