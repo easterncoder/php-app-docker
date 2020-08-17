@@ -1,9 +1,9 @@
-ARG PHPVER
-FROM php:${PHPVER}-fpm
+ARG PHP_VERSION=7
+FROM php:${PHP_VERSION}-fpm
 
 # attempt to set www-data's UID to our host user's UID
-ARG HOSTUID
-CMD [ "$HOSTUID" -gt "1" ] && usermod -u $HOSTUID www-data && groupmod -g $HOSTUID www-data
+ARG HOST_UID
+RUN test -n "$HOST_UID" && usermod -u $HOST_UID www-data && groupmod -g $HOST_UID www-data
 
 # Install some stuff
 RUN apt-get update -y && apt-get install -y sendmail libpng-dev

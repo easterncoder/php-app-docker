@@ -3,18 +3,16 @@ services:
   php:
     build:
       context: './docker/php/'
-      args:
-        PHPVER: ${PHPVER:-7}
-        HOSTUID: $UID
     networks:
       - backend
     volumes:
       - ./app/web/:/var/www/html/
-  webserver:
-    build: './docker/${WEBSERVER:-apache}/'
+  web_server:
+    build:
+      context: './docker/web/'
     depends_on:
       - php
-      - mysql
+      - database_server
     networks:
       - frontend
       - backend
@@ -22,13 +20,13 @@ services:
       - "8080:80"
     volumes:
       - ./app/web/:/var/www/html/
-  mysql:
-    image: mysql:${MYSQLVER:-latest}
+  database_server:
+    build:
+      context: './docker/db/'
     networks:
       - backend
     volumes:
-      - ./docker/mysql/init:/docker-entrypoint-initdb.d/:ro
-      - ./app/mysql:/var/lib/mysql
+      - ./app/db:/var/lib/mysql
     environment:
         - MYSQL_ROOT_PASSWORD=root
 networks:

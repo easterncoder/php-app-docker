@@ -4,67 +4,84 @@ Quickly setup your PHP Web Application environment using Docker Compose
 
 - Choose your PHP version (default latest PHP7) Tested on v5.6, v7.0, v7.1, v7.2, v7.3, and v7.4
 - Choose between Apache or Nginx as your web server
-- Choose your MySQL version (default latest)
+- Choose between MariaDB and MySQL sa your DBMS
 
 Best for testing your PHP web application on a variety of environments.
 
 ## Requirements
 
-- Docker Compose https://docs.docker.com/compose/install/
+- Docker Compose - https://docs.docker.com/compose/install/
 
 ## Installation
 
-The following will build the latest versions of PHP7, Apache, and MySQL. Once up, you may access your web application at localhost:8080
+The following will build the latest versions of PHP7, Apache, and MariaDB. Once up, you may access your web application at localhost:8080
 
-- `wget https://github.com/easterncoder/php-app-docker/archive/master.zip`
-- `unzip master.zip`
-- `cd php-app-docker-master`
-- `export UID; docker-compose up --build`
+```sh
+wget https://github.com/easterncoder/php-app-docker/archive/master.zip
+unzip master.zip
+cd php-app-docker-master
+docker-compose build --build-arg HOST_UID=$(id -u)
+docker-compose up -d
+```
 
-You may then look at:
+You may access the web server at:
 
+- localhost:8080
 - localhost:8080/phpinfo.php
 - localhost:8080/adminer.php
 
+Note: `--build-arg HOST_UID` is required in order set file permissions for the `app/web` folder
+
 ## File Paths
 
-- PHP Files (Put your PHP app here): `app/web`
-- MySQL Data (This is where MySQL will store its data): `app/mysql`
+- `app/web` - PHP Files (Put your PHP app here)
+- `app/db` - Database Data (This is where database files are stored)
 
-## Default MySQL Credentials
+## Default Database Credentials
 
-- HOST: mysql
-- USER: root
-- PASS: root
+- HOST: **database_server**
+- USER: **root**
+- PASS: **root**
 
-## To start/stop an existing build
+## To start the services of an existing build
 
-- `docker-compose start/stop`
+```sh
+docker-compose up -d
+```
 
-## Other Build Options
+## To stop the services
+```sh
+docker-compose stop
+```
 
-Build options are specified by the following environment variables.
+## Build Options
 
-- WEBSERVER
-  - apache (default)
-  - nginx
-- MYSQLVER
-  - Any version as listed on https://hub.docker.com/_/mysql?tab=tags
-- PHPVER
-  - 7 (default: will build latest available version of PHP 7)
-  - 7.4
-  - 7.3
-  - 7.2
-  - 7.1
-  - 7.0
-  - 5.6
+Build options are specified by passing --build-arg FOO=BAR for each argument you want to pass. Available build arguments are:
 
-Examples:
+Host UID (required)
+- `HOST_UID`=num\
+Example 1: to set the current user's UID `--build-arg HOST_UID=$(id -u)`
+Example 2: to set a specific UID `--build-arg HOST_UID=1001`
 
-- Latest versions of PHP7, Nginx and MySQL\
-  `export UID; export WEBSERVER=nginx; docker-compose up --build`
+Web Servers:
+- `WEB`=**httpd** | nginx
+- `WEB_VERSION`=**latest** | num
 
-- PHP5.6, Apache (latest) and MySQL 5.6\
-  `export UID; export WEBSERVER=apache; export MYSQLVER=5.6; docker-compose up --build`
+Database Management System:
+- `DB`=**mariadb** | mysql
+- `DB_VERSION`=**latest** | num
+
+PHP
+- `PHP_VERSION`=**7** | 7.4 | 7.3 | 7.2 | 7.1 | 7.0 | 5.6
+
+To build PHP 5.6, Nginx (latest) and MySQL 5.6, the build command would be:
+
+```sh
+docker-compose build --build-arg HOST_UID=$(id -u) \
+ --build-arg PHP_VERSION=5.6 \
+ --build-arg DB=mysql \
+ --build-arg DB_VERSION=5.6 \
+ --build-arg WEB=nginx
+ ```
 
 
