@@ -17,7 +17,7 @@ services:
       - frontend
       - backend
     ports:
-      - "8080:80"
+      - 80
     volumes:
       - ./app/web/:/var/www/html/
   database_server:
