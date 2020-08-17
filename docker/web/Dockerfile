@@ -12,6 +12,8 @@ RUN echo "Include /usr/local/apache2/conf/vhost.conf" \
 # Copy nginx config
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
-# avahi
+# setup avahi
 RUN printf "[server]\nenable-dbus=no\n" >> /etc/avahi/avahi-daemon.conf
-RUN update-rc.d avahi-daemon defaults
+
+# run avahi and the web server
+CMD avahi-daemon --daemonize --no-drop-root; httpd -DFOREGROUND || nginx -g "daemon off;"
