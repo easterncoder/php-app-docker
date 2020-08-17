@@ -38,10 +38,10 @@ or better yet, at:
 - myapp.local/phpinfo.php
 - myapp.local/adminer.php
 
-**If you wish to change the hostname from myapp.local to something else, you can do**
+To build with your a different hostname.local address, do this:
 
 ```
-APP_URL=something.local docker-compose up -d
+docker-compose build --build-arg HOST_UID=$(id -u) --build-arg APP_HOSTNAME=your_hostname
 ```
 
 ## File Paths
@@ -77,10 +77,11 @@ Example 2: to set a specific UID `--build-arg HOST_UID=1001`
 
 Web Servers:
 - `WEB`=**httpd** | nginx
+- `APP_HOSTNAME`=**myapp** | _string_
 
 Database Management System:
 - `DB`=**mariadb** | mysql
-- `DB_VERSION`=**latest** | num
+- `DB_VERSION`=**latest** | _num_
 
 PHP
 - `PHP_VERSION`=**7** | 7.4 | 7.3 | 7.2 | 7.1 | 7.0 | 5.6

@@ -8,7 +8,6 @@ services:
     volumes:
       - ./app/web/:/var/www/html/
   web_server:
-    hostname: ${APP_URL:-myapp.local}
     build:
       context: './docker/web/'
     depends_on:
