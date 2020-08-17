@@ -24,13 +24,25 @@ docker-compose build --build-arg HOST_UID=$(id -u)
 docker-compose up -d
 ```
 
+Note: `--build-arg HOST_UID` is required in order set file permissions for the `app/web` folder
+
 You may access the web server at:
 
 - localhost:8080
 - localhost:8080/phpinfo.php
 - localhost:8080/adminer.php
 
-Note: `--build-arg HOST_UID` is required in order set file permissions for the `app/web` folder
+or better yet, at:
+
+- myapp.local
+- myapp.local/phpinfo.php
+- myapp.local/adminer.php
+
+**If you wish to change the hostname from myapp.local to something else, you can do**
+
+```
+APP_URL=something.local docker-compose up -d
+```
 
 ## File Paths
 
