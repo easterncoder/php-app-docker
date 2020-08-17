@@ -28,12 +28,6 @@ Note: `--build-arg HOST_UID` is required in order set file permissions for the `
 
 You may access the web server at:
 
-- localhost:8080
-- localhost:8080/phpinfo.php
-- localhost:8080/adminer.php
-
-or better yet, at:
-
 - myapp.local
 - myapp.local/phpinfo.php
 - myapp.local/adminer.php
