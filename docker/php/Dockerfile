@@ -8,7 +8,8 @@ RUN test -n "$HOST_UID" && usermod -u $HOST_UID www-data && groupmod -g $HOST_UI
 # Install some stuff
 RUN apt-get update -y && apt-get install -y sendmail libpng-dev
 
-RUN echo "sendmail_path=/usr/sbin/sendmail -t -i" >> /usr/local/etc/php/conf.d/sendmail.ini 
+# Copy config
+COPY conf/* /usr/local/etc/php/conf.d/
 
 # Install necessary extensions
 RUN docker-php-ext-install mysqli
