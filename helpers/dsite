@@ -1,0 +1,77 @@
+#!/bin/bash
+
+set -e
+
+# help
+if [ "$1" == "--help" ]; then
+  echo "Usage: newsite.sh app_name [--with-wordpress] [BUILD_ARG1=VAL [BUILD_ARG2=VAL]]"
+  exit 0
+fi
+
+# we need the first parameter for our app name
+if [ -z "$1" ]
+then
+  echo "App name (i.e. myapp) required"
+  echo "Usage: newsite.sh app_name [--with-wordpress] [BUILD_ARG1=VAL [BUILD_ARG2=VAL]]"
+  exit 1
+fi
+
+appname=$1
+# check if appname folder already exists
+if [ -e $1 ]
+then
+  echo App name $1 alraedy exists in "`pwd`".
+  echo Please choose a different one.
+  exit 1;
+fi
+
+# remove appname from parameters
+shift
+
+# create app folder
+echo Creating $appname folder
+mkdir $appname
+cd $appname
+
+# download and unpack php-app-docker
+# echo Downloading php-app-docker
+wget https://github.com/easterncoder/php-app-docker/archive/master.zip
+echo Unpacking...
+unzip -o master.zip
+mv php-app-docker-master/* ./
+rmdir php-app-docker-master
+rm master.zip
+
+if [ "$1" == "--with-wordpress" ]; then
+  shift
+  # download and unpack WordPress
+  echo Downloading WordPress
+  wordpress=~/.cache/`date +%F`-wordpress.zip
+  if [ ! -f $wordpress ]
+  then
+  wget https://wordpress.org/latest.zip -O $wordpress
+  fi
+  echo Unpacking...
+  unzip -o -d . $wordpress 
+  mv wordpress/* app/web/
+  rmdir wordpress
+fi
+
+# save build arguments to buildargs
+echo "$@" | tr ' ' '\n' > buildargs
+echo "HOST_UID=$(id -u)" >> buildargs
+echo "APP_HOSTNAME=$appname" >> buildargs
+
+# build the docker containers
+echo Building Docker Containers...
+dbuild
+
+# fire things up
+echo Starting Containers...
+dstart
+
+# all good
+echo http://$appname.local is now available
+echo '(Re)build' with dbuild
+echo Start and Stop with dstart and dstop
+echo Execute with dexec

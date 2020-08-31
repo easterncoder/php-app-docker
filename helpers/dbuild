@@ -1,0 +1,7 @@
+#!/bin/bash
+dstop
+buildargs="$(echo $@ | grep -oE '\--build-arg [^ ]+' | sed 's/--build-arg *//') $(cat buildargs)"
+echo $buildargs | tr ' ' '\n' > buildargs
+cat buildargs | awk -F = '!a[$1]++' | tee buildargs > /dev/null
+args=$(echo $@ | sed 's/--build-arg *[^ ]*//g')
+docker-compose build $(sed 's/^..*$/--build-arg \0/g' buildargs | tr '\n' ' ') $args

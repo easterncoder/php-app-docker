@@ -1,0 +1,6 @@
+#!/bin/bash
+if [ -f buildargs ]; then
+  source buildargs
+  export APP_HOSTNAME
+fi
+docker-compose up -d $@
