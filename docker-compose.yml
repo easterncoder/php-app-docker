@@ -8,6 +8,8 @@ services:
       - backend
     volumes:
       - ./app/web/:/var/www/html/
+    external_links:
+      - web_server:$APP_HOSTNAME.local
   web_server:
     build:
       context: './docker/web/'
