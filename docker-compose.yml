@@ -1,5 +1,18 @@
 version: "3.2"
 services:
+  web:
+    build:
+      context: './docker/web/'
+    depends_on:
+      - php
+      - db
+    networks:
+      - frontend
+      - backend
+    ports:
+      - 80
+    volumes:
+      - ./app/web/:/var/www/html/
   php:
     build:
       context: './docker/php/'
@@ -9,21 +22,8 @@ services:
     volumes:
       - ./app/web/:/var/www/html/
     external_links:
-      - web_server:$APP_HOSTNAME.local
-  web_server:
-    build:
-      context: './docker/web/'
-    depends_on:
-      - php
-      - database_server
-    networks:
-      - frontend
-      - backend
-    ports:
-      - 80
-    volumes:
-      - ./app/web/:/var/www/html/
-  database_server:
+      - web:$APP_HOSTNAME.local
+  db:
     build:
       context: './docker/db/'
     networks:
@@ -31,7 +31,7 @@ services:
     volumes:
       - ./app/db:/var/lib/mysql
     environment:
-        - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=root
 networks:
   frontend:
   backend:
